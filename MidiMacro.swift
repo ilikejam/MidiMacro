@@ -7,10 +7,62 @@ import CoreMIDI
 enum AppBundle: String {
     case emacs = "org.gnu.Emacs"
     case iterm = "com.googlecode.iterm2"
+    case firefox = "org.mozilla.firefox"
+    case slack = "com.tinyspeck.slackmacgap"
+    case outlook = "com.microsoft.Outlook"
+    case teams = "com.microsoft.teams2"
+    case spotify = "com.spotify.client"
 }
 
 func handleMIDIKeyDown(_ id: UInt8) {
     print("Handling key \(id)")
+    // Location comments are for Korg nanoPAD2 button locations
+    switch id {
+    case 37: // top, 1st
+        print("Opening iTerm2")
+        openApp(.iterm)
+    case 39: // top, 2nd
+        print("Opening Emacs")
+        openApp(.emacs)
+    case 41: // top, 3rd
+        print("Opening Firefox")
+        openApp(.firefox)
+    case 43: // top, 4th
+        print("Opening Slack")
+        openApp(.slack)
+    case 45: // top, 5th
+        print("Opening Outlook")
+        openApp(.outlook)
+    case 47: // top, 6th
+        print("Opening Teams")
+        openApp(.teams)
+    case 49: // top, 7th
+        print("Opening Spotify")
+        openApp(.spotify)
+    case 36: // bottom, 1st
+        print("Typing sudo su -")
+        typeString("sudo su -\n")
+    case 38: // bottom, 2nd
+        print("Typing git checkout -b ")
+        typeString("git checkout -b ")
+    case 40: // bottom, 3rd
+        print("Typing git add -A && git commit -m \"\"")
+        typeString("git add -A && git commit -m \"\"")
+    case 42: // bottom, 4th
+        print("Typing slam")
+        typeString("slam\n")
+    case 44: // bottom, 5th
+        print("Opening Google")
+        openURL("https://www.google.com")
+    case 46: // bottom, 6th
+        print("Opening GitHub")
+        openURL("https://github.com")
+    case 48: // bottom, 7th
+        print("Opening ChatGPT")
+        openURL("https://chatgpt.com")
+    default:
+        break
+    }
 }
 
 if #unavailable(macOS 11.0) {
@@ -20,7 +72,10 @@ if #unavailable(macOS 11.0) {
 }
 
 func typeString(_ text: String) {
-    guard let source = CGEventSource(stateID: .hidSystemState) else { return }
+    guard let source = CGEventSource(stateID: .hidSystemState) else {
+        print("Warning: Could not get CGEventSource")
+        return
+    }
     let utf16 = Array(text.utf16)
     for codeUnit in utf16 {
         var char = codeUnit
@@ -53,6 +108,7 @@ func typeString(_ text: String) {
     }
 }
 
+// openApp opens and/or brings to the front the given App
 func openApp(_ app: AppBundle) {
     guard
         let url = NSWorkspace.shared.urlForApplication(
@@ -68,6 +124,13 @@ func openApp(_ app: AppBundle) {
         configuration: configuration,
         completionHandler: nil
     )
+}
+
+func openURL(_ address: String) {
+    guard let url = URL(string: address) else {
+        return
+    }
+    NSWorkspace.shared.open(url)
 }
 
 func connectAllSources() {
