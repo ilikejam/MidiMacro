@@ -58,8 +58,11 @@ func handleMIDIKeyDown(_ id: UInt8) {
         print("Opening GitHub")
         openURL("https://github.com")
     case 48: // bottom, 7th
-        print("Opening ChatGPT")
-        openURL("https://chatgpt.com")
+        print("Opening Claude")
+        openURL("https://claude.ai")
+    case 50: // bottom, 8th
+        print("Opening Youtube")
+        openURL("https://www.youtube.com")
     default:
         break
     }
