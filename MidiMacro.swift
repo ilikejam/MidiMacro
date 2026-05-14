@@ -12,6 +12,7 @@ enum AppBundle: String {
     case outlook = "com.microsoft.Outlook"
     case teams = "com.microsoft.teams2"
     case spotify = "com.spotify.client"
+    case activity = "com.apple.ActivityMonitor"
 }
 
 func handleMIDIKeyDown(_ id: UInt8) {
@@ -39,18 +40,21 @@ func handleMIDIKeyDown(_ id: UInt8) {
     case 49: // top, 7th
         print("Opening Spotify")
         openApp(.spotify)
+    case 51: // top, 8th
+        print("Opening Activity Monitor")
+        openApp(.activity)
     case 36: // bottom, 1st
         print("Typing sudo su -")
         typeString("sudo su -\n")
     case 38: // bottom, 2nd
-        print("Typing git checkout -b ")
-        typeString("git checkout -b ")
-    case 40: // bottom, 3rd
-        print("Typing git add -A && git commit -m \"\"")
-        typeString("git add -A && git commit -m \"\"")
-    case 42: // bottom, 4th
+        print("Typing res")
+        typeString("res\n")
+    case 40: // bottom, 4th
         print("Typing slam")
         typeString("slam\n")
+    case 42: // bottom, 3rd
+        print("Typing friday")
+        typeString("friday\n")
     case 44: // bottom, 5th
         print("Opening Google")
         openURL("https://www.google.com")
